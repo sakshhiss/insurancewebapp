@@ -1,0 +1,175 @@
+<div
+  class="container d-flex flex-column h-full justify-content-center align-items-center mt-5"
+>
+  <div class="row h-full  justify-content-between">
+    <div class="col-xs-6 col-sm-6 col-md-6 shadow-lg">
+      <div class="mt-2 mb-2">
+        <h3>Payment Form</h3>
+      </div>
+      <form #myForm="ngForm" (ngSubmit)="submit()">
+        <div class="mt-2 mb-3">
+          <label for="cardOwnerName" class="form-label fw-semibold"
+            >Card Owner Name</label
+          >
+          <input
+            type="text"
+            id="cardOwnerName"
+            name="cardOwnerName"
+            placeholder="Enter Full Name"
+            #cardOwnerName="ngModel"
+            [(ngModel)]="form.cardOwnerName"
+            ngModel
+            class="form-control"
+            pattern="[A-Z\s]+"
+            title="Uppercase required"
+          />
+
+          <div
+            *ngIf="
+              cardOwnerName.invalid &&
+              (cardOwnerName.dirty || cardOwnerName.touched)
+            "
+            class="text-danger"
+          >
+            <div>Uppercase required</div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="cardNumber" class="form-label fw-semibold"
+            >Card Number</label
+          >
+          <input
+            type="text"
+            id="cardNumber"
+            name="cardNumber"
+            placeholder="Card number"
+            #cardNumber="ngModel"
+            [(ngModel)]="form.cardNumber"
+            ngModel
+            class="form-control"
+            pattern="[0-9]{16}"
+            title="Please enter 16 digits"
+          />
+
+          <div
+            *ngIf="cardNumber.invalid && cardNumber.dirty"
+            class="text-danger"
+          >
+            <div>16 Digits required</div>
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <div class="col-md-6">
+            <label for="securityCode" class="form-label fw-semibold"
+              >Security Code</label
+            >
+            <input
+              type="text"
+              id="securityCode"
+              name="securityCode"
+              placeholder="Security code"
+              #securityCode="ngModel"
+              [(ngModel)]="form.securityCode"
+              ngModel
+              class="form-control"
+              pattern="[0-9]{3}"
+              title="Please enter 3 digits"
+            />
+
+            <div
+              *ngIf="securityCode.invalid && securityCode.dirty"
+              class="text-danger"
+            >
+              <div>Min 3-Digits Security code required</div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label for="validThrough" class="form-label fw-semibold"
+              >Valid Through</label
+            >
+            <input
+              type="text"
+              id="validThrough"
+              name="validThrough"
+              placeholder="MM/YY"
+              #validThrough="ngModel"
+              [(ngModel)]="form.validThrough"
+              ngModel
+              class="form-control"
+              title="Please enter date in MM/YY format"
+              pattern="^(0[1-9]|1[0-2])\/\d{2}$"
+            />
+
+            <div
+              *ngIf="validThrough.invalid && validThrough.dirty"
+              class="text-danger"
+            >
+              <div>Please enter date in MM/YY format</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-center align-items-center mb-3">
+          <button
+            type="button"
+            class="me-2 btn btn-primary mt-3 px-2 py-1 font-weight-bold border-2 rounded-0 d-flex justify-content-between overflow-hidden"
+            (click)="resetForm()"
+          >
+            Reset form
+          </button>
+          <button
+            type="submit"
+            [disabled]="myForm.form.invalid"
+            class="btn btn-primary mt-3 px-2 py-1 font-weight-bold border-2 rounded-0 d-flex justify-content-between overflow-hidden"
+          >
+            <span
+              class="position-absolute top-0 left-0 w-100 h-0 mb-0 transition-all duration-200 ease-out transform translate-y-0 bg-gray-200 group-hover:h-full opacity-90"
+            ></span>
+            <span class="">
+              <ng-container *ngIf="isEdit"> Update changes </ng-container>
+              <ng-container *ngIf="!isEdit"> Add card </ng-container>
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-xs-6 col-sm-6 shadow-md col-md-6  ">
+      <div class="table-responsive bg-white">
+        <table class="table table-hover mb-0">
+          <thead>
+            <tr>
+              <th scope="col">Payment ID</th>
+              <th scope="col">Card Owner</th>
+              <th scope="col">Card Number</th>
+              <th scope="col">Exp. Date</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let payment of data" class="cursor-pointer">
+              <td>{{ payment.paymentId }}</td>
+              <td (click)="editToggle(payment.paymentId)">
+                {{ payment.cardOwnerName }}
+              </td>
+              <td>{{ payment.cardNumber }}</td>
+              <td>{{ payment.validThrough }}</td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-link text-danger"
+                  (click)="deletePayment(payment.paymentId)"
+                >
+                  <i class="bi bi-trash3-fill"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

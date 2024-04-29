@@ -1,0 +1,44 @@
+<div class="container">
+  <div class="card" *ngIf="empinfo">
+    <div class="card-header">
+      <h5>Employee Information</h5>
+      <span class="material-icon-emp"><i class="bi bi-person-circle"></i></span>
+    </div>
+    <div class="card-body-emp">
+      <p><b>Employee ID:</b> {{ empinfo.id }}</p>
+      <p><b>Name:</b> {{ empinfo.empName }}</p>
+      <p><b>Company:</b> {{ empinfo.companyName }}</p>
+    </div>
+  </div>
+
+  <div class="card-policy" *ngIf="policyinfo.length > 0">
+    <div class="card-header">
+      <h4>Policy Information</h4>
+      <span class="material-icons"><i class="bi bi-info-circle"></i></span>
+    </div>
+    <div class="card-body-policy">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Coverage Details</th>
+            <th>Premium Amount</th>
+            <th>Payment</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let policy of policyinfo">
+            <td>{{ policy.policyType }}</td>
+            <td>{{ policy.coverageDetails }}</td>
+            <td>{{ policy.premiumAmount?.toFixed(2) }}</td>
+            <td><button (click)="pay()"><i class="bi bi-credit-card"></i></button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div *ngIf="!empinfo && !policyinfo.length">
+    <p>No data available yet.</p>
+  </div>
+</div>

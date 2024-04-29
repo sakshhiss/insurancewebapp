@@ -1,0 +1,67 @@
+<div class="login-container">
+  <form #ngForm="ngForm" (ngSubmit)="submit()" class="login-form">
+    <h1>Login</h1>
+
+    <!-- Error Messages -->
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+    <div
+      *ngIf="email.invalid && (email.touched || email.dirty)"
+      class="alert alert-danger"
+    >
+      Email field is required.
+    </div>
+    <div
+      *ngIf="password.invalid && (password.touched || password.dirty)"
+      class="alert alert-danger"
+    >
+      Password field is required.
+    </div>
+
+    <!-- Success Message -->
+    <div *ngIf="successMessage" class="alert alert-success">
+      {{ successMessage }}
+    </div>
+
+    <!-- Email Input -->
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        [(ngModel)]="form.email"
+        #email="ngModel"
+        placeholder="Enter Email"
+        required
+      />
+    </div>
+
+    <!-- Password Input -->
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        [(ngModel)]="form.password"
+        #password="ngModel"
+        placeholder="Enter Password"
+        required
+      />
+    </div>
+
+    <!-- Submit Button -->
+    <div class="form-group">
+      <button
+        type="submit"
+        [disabled]="ngForm.form.invalid"
+        class="submit-button"
+      >
+        Submit
+        <ng-template #submitText> Submit </ng-template>
+      </button>
+    </div>
+  </form>
+</div>
